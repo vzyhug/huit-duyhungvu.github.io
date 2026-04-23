@@ -1,243 +1,547 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Internship | Portfolio</title>
+    <title>Thực Hành Deep Learning | Vu Duy Hung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --secondary-text: #666666;
-            --border-color: #eeeeee;
-            --accent-color: #000000;
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --card-border: rgba(255, 255, 255, 0.4);
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --bear-color: #8b5cf6;
+            --bear-muzzle: #c4b5fd;
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --accent: #60a5fa;
+            --accent-glow: rgba(96, 165, 250, 0.3);
+            --bear-color: #a78bfa;
+            --bear-muzzle: #ede9fe;
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.6;
-            padding: 4rem 2rem;
-            max-width: 800px;
-            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
         }
 
+        /* Animated Background Gradients */
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            border-radius: 50%;
+            top: -200px;
+            left: -200px;
+            z-index: -1;
+            filter: blur(60px);
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 60%);
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+            z-index: -1;
+            filter: blur(60px);
+            animation: float 8s infinite ease-in-out alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            color: var(--text-color);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        /* Header & Bear */
         header {
+            text-align: center;
             margin-bottom: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        #bear-container {
+            margin-bottom: -1rem;
+            position: relative;
+            z-index: 2;
         }
 
         h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            letter-spacing: -0.05em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--text-color), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-align: center;
         }
 
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--secondary-text);
-            font-weight: 400;
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            text-align: center;
         }
 
-        section {
-            margin-bottom: 4rem;
-        }
-
-        h2 {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--text-color);
+        .student-info {
+            margin-top: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
             display: inline-block;
-            padding-bottom: 0.2rem;
+            text-align: left;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .student-info p {
+            margin: 0.3rem 0;
+            font-size: 1.05rem;
+        }
+        
+        .student-info strong {
+            color: var(--accent);
+            font-weight: 600;
         }
 
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
+        /* Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 1;
         }
 
-        .item-title {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .item-desc {
-            color: var(--secondary-text);
-            font-size: 0.95rem;
-        }
-
-        .project-link {
-            display: block;
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
             text-decoration: none;
             color: var(--text-color);
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-            margin-bottom: 1rem;
-        }
-
-        .project-link:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border-color: var(--text-color);
-        }
-
-        .project-link .link-icon {
-            float: right;
-            font-size: 1.2rem;
-        }
-
-        footer {
-            margin-top: 6rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.9rem;
-            color: var(--secondary-text);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: var(--shadow);
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        a {
-            color: var(--text-color);
-            text-decoration: underline;
-            text-underline-offset: 4px;
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
         }
 
-        a:hover {
-            color: var(--secondary-text);
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px var(--accent-glow);
+            border-color: var(--accent);
         }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2.5rem;
-            }
+        .card:hover::before {
+            opacity: 1;
+        }
 
-            body {
-                padding: 2rem 1rem;
-            }
+        .card-visual {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            z-index: 1;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        /* --- Animations for Visuals --- */
+
+        /* CNN */
+        .cnn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 68px; height: 68px; position: relative; }
+        .cnn-cell { background: var(--text-muted); opacity: 0.2; border-radius: 3px; }
+        .cnn-kernel { position: absolute; top: 0; left: 0; width: 32px; height: 32px; background: rgba(59, 130, 246, 0.4); border: 2px solid var(--accent); border-radius: 4px; box-shadow: 0 0 10px var(--accent-glow); animation: scan 3s infinite ease-in-out; }
+        @keyframes scan {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(36px, 0); }
+            50% { transform: translate(36px, 36px); }
+            75% { transform: translate(0, 36px); }
+        }
+
+        /* ANN */
+        .ann-node { fill: var(--text-muted); transition: fill 0.3s; }
+        .card:hover .ann-node { fill: var(--accent); }
+        .ann-line { stroke: var(--text-muted); stroke-width: 2; opacity: 0.3; }
+        .ann-signal { fill: var(--accent); filter: drop-shadow(0 0 5px var(--accent)); }
+
+        /* LSTM */
+        .lstm-box { fill: none; stroke: var(--text-muted); stroke-width: 2; rx: 8; transition: stroke 0.3s; }
+        .lstm-gate { fill: var(--text-muted); transition: fill 0.3s; }
+        .card:hover .lstm-box { stroke: var(--accent); }
+        .card:hover .lstm-gate { fill: var(--accent); }
+
+        /* RNN */
+        .rnn-node { fill: var(--text-muted); rx: 8; transition: fill 0.3s; }
+        .card:hover .rnn-node { fill: var(--accent); }
+        .rnn-arrow { stroke: var(--text-muted); stroke-width: 3; fill: none; opacity: 0.5; transition: stroke 0.3s, opacity 0.3s; }
+        .card:hover .rnn-arrow { stroke: var(--accent); opacity: 1; }
+
+        /* Pandas */
+        .pd-table { display: flex; flex-direction: column; gap: 4px; width: 68px; }
+        .pd-row { display: flex; gap: 4px; height: 14px; }
+        .pd-cell { flex: 1; background: var(--text-muted); opacity: 0.3; border-radius: 2px; transition: opacity 0.3s, background 0.3s; }
+        .pd-row:first-child .pd-cell { opacity: 0.7; border-radius: 3px 3px 0 0; }
+        .card:hover .pd-row:nth-child(2) .pd-cell { animation: highlight 2s infinite 0s; }
+        .card:hover .pd-row:nth-child(3) .pd-cell { animation: highlight 2s infinite 0.4s; }
+        .card:hover .pd-row:nth-child(4) .pd-cell { animation: highlight 2s infinite 0.8s; }
+        @keyframes highlight {
+            0%, 100% { background: var(--text-muted); opacity: 0.3; }
+            50% { background: var(--accent); opacity: 1; box-shadow: 0 0 8px var(--accent-glow); transform: scale(1.1); }
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .theme-toggle { top: 1rem; right: 1rem; }
+            header { margin-top: 4rem; }
         }
     </style>
 </head>
-
 <body>
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <button class="theme-toggle" id="theme-btn">
+        <span id="theme-icon">🌙</span> Dark Mode
+    </button>
 
     <header>
-        <h1>Vu Duy Hung</h1>
-        <p class="subtitle">Deep Learning & Machine Learning Engineer</p>
+        <div id="bear-container">
+            <svg id="bear" width="160" height="160" viewBox="0 0 200 200">
+                <circle cx="50" cy="60" r="25" fill="var(--bear-color)"/>
+                <circle cx="150" cy="60" r="25" fill="var(--bear-color)"/>
+                <circle cx="100" cy="110" r="70" fill="var(--bear-color)"/>
+                
+                <!-- Eyes Background -->
+                <circle cx="75" cy="95" r="14" fill="#ffffff" class="eye-bg"/>
+                <circle cx="125" cy="95" r="14" fill="#ffffff" class="eye-bg"/>
+                
+                <!-- Pupils -->
+                <g id="pupils">
+                    <circle id="pupil-left" cx="75" cy="95" r="6" fill="#0f172a"/>
+                    <circle id="pupil-right" cx="125" cy="95" r="6" fill="#0f172a"/>
+                </g>
+
+                <!-- Muzzle -->
+                <ellipse cx="100" cy="135" rx="35" ry="25" fill="var(--bear-muzzle)"/>
+                <path d="M 92 125 Q 100 135 108 125 Z" fill="#0f172a"/>
+                
+                <!-- Mouth -->
+                <path id="mouth-normal" d="M 90 145 Q 100 155 110 145" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" style="transition: opacity 0.2s;"/>
+                <ellipse id="mouth-surprised" cx="100" cy="148" rx="8" ry="10" fill="#0f172a" style="opacity: 0; transition: opacity 0.2s;"/>
+            </svg>
+        </div>
+        <h1>Thực Hành Deep Learning</h1>
+        <p class="subtitle">Khám phá các mô hình Học Sâu thông qua Google Colab. Di chuột qua các chủ đề để xem minh họa trực quan.</p>
+        
+        <div class="student-info">
+            <p><strong>Họ & Tên:</strong> Vũ Duy Hưng</p>
+            <p><strong>MSSV:</strong> 2001230325</p>
+            <p><strong>Mã học phần:</strong> 14DHTH07</p>
+        </div>
     </header>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            Dedicated and detail-oriented IT student seeking an internship position to apply my technical skills and
-            passion for building efficient software solutions. I thrive on solving complex problems and am constantly
-            exploring new technologies to broaden my expertise in the digital landscape.
-        </p>
-    </section>
+    <div class="grid">
+        <!-- ANN -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <path class="ann-line" d="M 15 20 L 40 40 L 65 20" />
+                    <path class="ann-line" d="M 15 60 L 40 40 L 65 60" />
+                    <path class="ann-line" d="M 15 20 L 40 40 L 65 60" />
+                    <circle class="ann-signal" cx="15" cy="20" r="3">
+                        <animate attributeName="cx" values="15; 40; 65; 15" dur="3s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="20; 40; 20; 20" dur="3s" repeatCount="indefinite" />
+                    </circle>
+                    <circle class="ann-signal" cx="15" cy="60" r="3">
+                        <animate attributeName="cx" values="15; 40; 65; 15" dur="3.5s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="60; 40; 60; 60" dur="3.5s" repeatCount="indefinite" />
+                    </circle>
+                    <circle class="ann-node" cx="15" cy="20" r="6"/>
+                    <circle class="ann-node" cx="15" cy="60" r="6"/>
+                    <circle class="ann-node" cx="40" cy="40" r="8"/>
+                    <circle class="ann-node" cx="65" cy="20" r="6"/>
+                    <circle class="ann-node" cx="65" cy="60" r="6"/>
+                </svg>
+            </div>
+            <h3>ANN</h3>
+            <p>Artificial Neural Network</p>
+        </a>
 
-    <section id="skills">
-        <h2>Technical Skills</h2>
-        <div class="grid">
-            <div>
-                <span class="item-title">Languages</span>
-                <span class="item-desc">Python, Java, SQL, Dart ,C#</span>
+        <!-- CNN -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <div class="cnn-grid">
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-kernel"></div>
+                </div>
             </div>
-            <div>
-                <span class="item-title">Web-Mobile Apps Development</span>
-                <span class="item-desc">React, HTML5, CSS3, Node.js, Flutter/span>
-            </div>
-            <div>
-                <span class="item-title">Tools & Databases</span>
-                <span class="item-desc">Git, Docker, MySQL, MongoDB</span>
-            </div>
-            <div>
-                <span class="item-title">Data Science</span>
-                <span class="item-desc">Pandas, NumPy, Matplotlib, Google Colab,PyTorch</span>
-            </div>
-        </div>
-    </section>
+            <h3>CNN</h3>
+            <p>Convolutional Neural Network</p>
+        </a>
 
-    <section id="strengths">
-        <h2>Strengths</h2>
-        <div class="grid">
-            <div>
-                <span class="item-title">Machine Learning</span>
-                <span class="item-desc">Diffusion Model for Denoising ECG Signals with Non-Markovian Process</span>
+        <!-- LSTM -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <svg width="80" height="60" viewBox="0 0 80 60">
+                    <rect class="lstm-box" x="10" y="10" width="60" height="40" />
+                    <circle class="lstm-gate" cx="25" cy="30" r="4"/>
+                    <circle class="lstm-gate" cx="40" cy="30" r="4"/>
+                    <circle class="lstm-gate" cx="55" cy="30" r="4"/>
+                    <path class="ann-line" d="M 10 30 L 70 30" />
+                    <circle class="ann-signal" cx="10" cy="30" r="2">
+                        <animate attributeName="cx" values="10;70" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
             </div>
-            <div>
-                <span class="item-title">Tournaments</span>
-                <span class="item-desc">Build a Website to Manage Travel Tours with Java SpringBoot and MySQL</span>
-            </div>
-            <div>
-                <span class="item-title">Fast Food Clone</span>
-                <span class="item-desc">Clone KFC with framework Flutter and Firebase</span>
-            </div>
-        </div>
-    </section>
+            <h3>LSTM</h3>
+            <p>Long Short-Term Memory</p>
+        </a>
 
-    <section id="projects">
-        <h2>Selected Projects</h2>
+        <!-- Pandas -->
+        <a href="https://colab.research.google.com/github/vzyhug/200123035_14DHTH07_DL/blob/main/Pandas/THDLN_Buoi1_BTTL_NumpyPandas.ipynb" class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <div class="pd-table">
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                </div>
+            </div>
+            <h3>Pandas</h3>
+            <p>Data Analysis Library</p>
+        </a>
 
-        <a href="https://colab.research.google.com/drive/..." class="project-link" target="_blank">
-            <span class="link-icon">↗</span>
-            <span class="item-title">Thuc hanh Deep Learning - Topic ANN</span>
-            <span class="item-desc">A Google Colab notebook exploring predictive modeling and data visualization using
-                Python.</span>
+        <!-- RNN -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <rect class="rnn-node" x="25" y="25" width="30" height="30" />
+                    <path class="rnn-arrow" d="M 40 25 C 40 -5, 75 -5, 75 20 C 75 40, 55 40, 55 40" marker-end="url(#arrowhead)"/>
+                    <defs>
+                        <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                            <polygon points="0 0, 6 3, 0 6" fill="var(--text-muted)" class="arrow-poly" style="transition: fill 0.3s;"/>
+                        </marker>
+                    </defs>
+                    <path class="rnn-arrow" d="M 40 25 C 40 -5, 75 -5, 75 20 C 75 40, 55 40, 55 40" stroke="#fff" style="stroke-dasharray: 10 50;">
+                        <animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.5s" repeatCount="indefinite" />
+                    </path>
+                </svg>
+            </div>
+            <h3>RNN</h3>
+            <p>Recurrent Neural Network</p>
         </a>
-        <a href="https://colab.research.google.com/drive/..." class="project-link" target="_blank">
-            <span class="link-icon">↗</span>
-            <span class="item-title">Thuc hanh Deep Learning - Topic CNN</span>
-            <span class="item-desc">A Google Colab notebook exploring predictive modeling and data visualization using
-                Python.</span>
-        </a>
-        <a href="https://colab.research.google.com/drive/..." class="project-link" target="_blank">
-            <span class="link-icon">↗</span>
-            <span class="item-title">Thuc hanh Deep Learning - Topic LSTM</span>
-            <span class="item-desc">A Google Colab notebook exploring predictive modeling and data visualization using
-                Python.</span>
-        </a>
-        <a href="https://colab.research.google.com/github/vzyhug/200123035_14DHTH07_DL/blob/main/Pandas/THDLN_Buoi1_BTTL_NumpyPandas.ipynb"
-            class="project-link" target="_blank">
-            <span class="link-icon">↗</span>
-            <span class="item-title">Thuc hanh Deep Learning - Weekly (Pandas)</span>
-            <span class="item-desc">A Google Colab notebook exploring predictive modeling and data visualization using
-                Python.</span>
-        </a>
-        <a href="https://colab.research.google.com/drive/..." class="project-link" target="_blank">
-            <span class="link-icon">↗</span>
-            <span class="item-title">Thuc hanh Deep Learning - Topic RNN</span>
-            <span class="item-desc">A Google Colab notebook exploring predictive modeling and data visualization using
-                Python.</span>
-        </a>
-    </section>
+    </div>
 
     <footer>
-        <div>&copy; 2024 [YOUR NAME]</div>
-        <div>
-            <a href="mailto:email@example.com">Email</a> /
-            <a href="https://linkedin.com/in/...">LinkedIn</a> /
-            <a href="https://github.com/...">GitHub</a>
-        </div>
+        <p>&copy; 2024 Vu Duy Hung - Deep Learning & Machine Learning Engineer</p>
     </footer>
 
-</body>
+    <script>
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('theme-btn');
+        const root = document.documentElement;
+        
+        if(localStorage.getItem('theme') === 'dark') {
+            root.setAttribute('data-theme', 'dark');
+            themeBtn.innerHTML = '<span id="theme-icon">☀️</span> Light Mode';
+        }
 
+        themeBtn.addEventListener('click', () => {
+            if (root.getAttribute('data-theme') === 'light') {
+                root.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeBtn.innerHTML = '<span id="theme-icon">☀️</span> Light Mode';
+            } else {
+                root.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeBtn.innerHTML = '<span id="theme-icon">🌙</span> Dark Mode';
+            }
+        });
+
+        // Interactive Bear Logic
+        const bear = document.getElementById('bear');
+        const pupils = document.getElementById('pupils');
+        const pupilLeft = document.getElementById('pupil-left');
+        const pupilRight = document.getElementById('pupil-right');
+        const mouthNormal = document.getElementById('mouth-normal');
+        const mouthSurprised = document.getElementById('mouth-surprised');
+        const eyeBgs = document.querySelectorAll('.eye-bg');
+
+        document.addEventListener('mousemove', (e) => {
+            const bearRect = bear.getBoundingClientRect();
+            // Calculate center of bear
+            const bearX = bearRect.left + bearRect.width / 2;
+            const bearY = bearRect.top + bearRect.height / 2;
+
+            const angle = Math.atan2(e.clientY - bearY, e.clientX - bearX);
+            const distance = Math.min(8, Math.hypot(e.clientX - bearX, e.clientY - bearY) / 15);
+
+            const pupilX = Math.cos(angle) * distance;
+            const pupilY = Math.sin(angle) * distance;
+
+            pupils.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+        });
+
+        // Hover effect to surprise bear
+        const cards = document.querySelectorAll('.topic-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                mouthNormal.style.opacity = '0';
+                mouthSurprised.style.opacity = '1';
+                eyeBgs.forEach(bg => {
+                    bg.style.transition = 'r 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    bg.setAttribute('r', '18');
+                });
+                pupilLeft.setAttribute('r', '4');
+                pupilRight.setAttribute('r', '4');
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                mouthNormal.style.opacity = '1';
+                mouthSurprised.style.opacity = '0';
+                eyeBgs.forEach(bg => {
+                    bg.setAttribute('r', '14');
+                });
+                pupilLeft.setAttribute('r', '6');
+                pupilRight.setAttribute('r', '6');
+            });
+        });
+        
+        // RNN Card Arrow dynamic color update
+        const rnnCard = document.querySelector('.card[href*="RNN"]') || cards[4];
+        const arrowPoly = document.querySelector('.arrow-poly');
+        
+        const updateArrowColor = () => {
+            if(rnnCard.matches(':hover')) {
+                const rootStyles = getComputedStyle(document.documentElement);
+                arrowPoly.setAttribute('fill', rootStyles.getPropertyValue('--accent').trim());
+            } else {
+                const rootStyles = getComputedStyle(document.documentElement);
+                arrowPoly.setAttribute('fill', rootStyles.getPropertyValue('--text-muted').trim());
+            }
+        };
+
+        rnnCard.addEventListener('mouseenter', updateArrowColor);
+        rnnCard.addEventListener('mouseleave', updateArrowColor);
+
+        // Update on theme switch too
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'data-theme') {
+                    updateArrowColor();
+                }
+            });
+        });
+        observer.observe(root, { attributes: true });
+
+    </script>
+</body>
 </html>
