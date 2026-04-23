@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực Hành Deep Learning | Vu Duy Hung</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <button class="theme-toggle" id="theme-btn">
+        <span id="theme-icon">🌙</span> Dark Mode
+    </button>
+
+    <header>
+        <div id="bear-container">
+            <svg id="bear" width="160" height="160" viewBox="0 0 200 200">
+                <circle cx="50" cy="60" r="25" fill="var(--bear-color)"/>
+                <circle cx="150" cy="60" r="25" fill="var(--bear-color)"/>
+                <circle cx="100" cy="110" r="70" fill="var(--bear-color)"/>
+                
+                <!-- Eyes Background -->
+                <circle cx="75" cy="95" r="14" fill="#ffffff" class="eye-bg"/>
+                <circle cx="125" cy="95" r="14" fill="#ffffff" class="eye-bg"/>
+                
+                <!-- Pupils -->
+                <g id="pupils">
+                    <circle id="pupil-left" cx="75" cy="95" r="6" fill="#0f172a"/>
+                    <circle id="pupil-right" cx="125" cy="95" r="6" fill="#0f172a"/>
+                </g>
+
+                <!-- Muzzle -->
+                <ellipse cx="100" cy="135" rx="35" ry="25" fill="var(--bear-muzzle)"/>
+                <path d="M 92 125 Q 100 135 108 125 Z" fill="#0f172a"/>
+                
+                <!-- Mouth -->
+                <path id="mouth-normal" d="M 90 145 Q 100 155 110 145" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" style="transition: opacity 0.2s;"/>
+                <ellipse id="mouth-surprised" cx="100" cy="148" rx="8" ry="10" fill="#0f172a" style="opacity: 0; transition: opacity 0.2s;"/>
+            </svg>
+        </div>
+        <h1>Thực Hành Deep Learning</h1>
+        <p class="subtitle">Khám phá các mô hình Học Sâu thông qua Google Colab. Di chuột qua các chủ đề để xem minh họa trực quan.</p>
+        
+        <div class="student-info">
+            <p><strong>Họ & Tên:</strong> Vũ Duy Hưng</p>
+            <p><strong>MSSV:</strong> 2001230325</p>
+            <p><strong>Mã học phần:</strong> 14DHTH07</p>
+        </div>
+    </header>
+
+    <div class="grid">
+        <!-- ANN -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <path class="ann-line" d="M 15 20 L 40 40 L 65 20" />
+                    <path class="ann-line" d="M 15 60 L 40 40 L 65 60" />
+                    <path class="ann-line" d="M 15 20 L 40 40 L 65 60" />
+                    <circle class="ann-signal" cx="15" cy="20" r="3">
+                        <animate attributeName="cx" values="15; 40; 65; 15" dur="3s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="20; 40; 20; 20" dur="3s" repeatCount="indefinite" />
+                    </circle>
+                    <circle class="ann-signal" cx="15" cy="60" r="3">
+                        <animate attributeName="cx" values="15; 40; 65; 15" dur="3.5s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="60; 40; 60; 60" dur="3.5s" repeatCount="indefinite" />
+                    </circle>
+                    <circle class="ann-node" cx="15" cy="20" r="6"/>
+                    <circle class="ann-node" cx="15" cy="60" r="6"/>
+                    <circle class="ann-node" cx="40" cy="40" r="8"/>
+                    <circle class="ann-node" cx="65" cy="20" r="6"/>
+                    <circle class="ann-node" cx="65" cy="60" r="6"/>
+                </svg>
+            </div>
+            <h3>ANN</h3>
+            <p>Artificial Neural Network</p>
+        </a>
+
+        <!-- CNN -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <div class="cnn-grid">
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div><div class="cnn-cell"></div>
+                    <div class="cnn-kernel"></div>
+                </div>
+            </div>
+            <h3>CNN</h3>
+            <p>Convolutional Neural Network</p>
+        </a>
+
+        <!-- LSTM -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <svg width="80" height="60" viewBox="0 0 80 60">
+                    <rect class="lstm-box" x="10" y="10" width="60" height="40" />
+                    <circle class="lstm-gate" cx="25" cy="30" r="4"/>
+                    <circle class="lstm-gate" cx="40" cy="30" r="4"/>
+                    <circle class="lstm-gate" cx="55" cy="30" r="4"/>
+                    <path class="ann-line" d="M 10 30 L 70 30" />
+                    <circle class="ann-signal" cx="10" cy="30" r="2">
+                        <animate attributeName="cx" values="10;70" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
+            </div>
+            <h3>LSTM</h3>
+            <p>Long Short-Term Memory</p>
+        </a>
+
+        <!-- Pandas -->
+        <a href="https://colab.research.google.com/github/vzyhug/200123035_14DHTH07_DL/blob/main/Pandas/THDLN_Buoi1_BTTL_NumpyPandas.ipynb" class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <div class="pd-table">
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                    <div class="pd-row"><div class="pd-cell"></div><div class="pd-cell"></div><div class="pd-cell"></div></div>
+                </div>
+            </div>
+            <h3>Pandas</h3>
+            <p>Data Analysis Library</p>
+        </a>
+
+        <!-- RNN -->
+        <a href="https://colab.research.google.com/drive/..." class="card topic-card" target="_blank">
+            <div class="card-visual">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <rect class="rnn-node" x="25" y="25" width="30" height="30" />
+                    <path class="rnn-arrow" d="M 40 25 C 40 -5, 75 -5, 75 20 C 75 40, 55 40, 55 40" marker-end="url(#arrowhead)"/>
+                    <defs>
+                        <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                            <polygon points="0 0, 6 3, 0 6" fill="var(--text-muted)" class="arrow-poly" style="transition: fill 0.3s;"/>
+                        </marker>
+                    </defs>
+                    <path class="rnn-arrow" d="M 40 25 C 40 -5, 75 -5, 75 20 C 75 40, 55 40, 55 40" stroke="#fff" style="stroke-dasharray: 10 50;">
+                        <animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.5s" repeatCount="indefinite" />
+                    </path>
+                </svg>
+            </div>
+            <h3>RNN</h3>
+            <p>Recurrent Neural Network</p>
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Vu Duy Hung - Deep Learning & Machine Learning Engineer</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
